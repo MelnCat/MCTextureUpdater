@@ -25,7 +25,7 @@ export const down: VersionDown = (conv, pack) => {
 	const mipmapStrategy = pack.mcMetas().filter(x => x.content.texture && "mipmap_strategy" in x.content.texture);
 	if (mipmapStrategy.length) {
 		for (const meta of mipmapStrategy) {
-			if (meta.content.texture.mipmap_strategy !== "dark_cutout" && meta.content.texture.mipmap_strategy !== "auto") {
+			if (meta.content.texture!.mipmap_strategy !== "dark_cutout" && meta.content.texture!.mipmap_strategy !== "auto") {
 				pack.updateMcMeta(meta.path, x => ({
 					...x,
 					texture: {

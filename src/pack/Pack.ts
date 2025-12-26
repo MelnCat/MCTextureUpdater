@@ -41,6 +41,7 @@ export interface Pack {
 	image(path: string): Image | undefined;
 	
 	add(path: string, image: Image): void;
+	addMcMeta(path: string, meta: AnyMcMeta): void;
 
 	updateModel(path: string, cb: (model: Model) => Model, fallback?: Model): boolean;
 	updateBlockModel(path: string, cb: (model: BlockModel) => BlockModel, fallback?: BlockModel): boolean;
@@ -55,8 +56,8 @@ export interface Pack {
 	setFormatVersion(version: number): void;
 
 	mcMeta(path: string[]): Pathed<AnyMcMeta>[];
-	renameMcMeta(path: string[], to: string[]): Pathed<AnyMcMeta>[];
-	deleteMcMeta(path: string[]): Pathed<AnyMcMeta>[];
+	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta>[];
+	deleteMcMeta(path: string): Pathed<AnyMcMeta>[];
 }
 
 export interface Conversion {

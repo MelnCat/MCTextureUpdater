@@ -16,3 +16,7 @@ export const mergeSheet = (width: number, height: number, sprites: { index: numb
 export const createImage = (width: number, height: number): Image => {
 
 }
+
+export const placeImages = (width: number, height: number, images: { x: number, y: number, image: Image }[]): Image => {
+
+}
