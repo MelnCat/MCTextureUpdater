@@ -1,0 +1,62 @@
+import type { Blockstate } from "./Blockstate";
+import type { AnyMcMeta } from "./McMeta";
+
+export interface Pathed<T> {
+	content: T;
+	path: string;
+}
+
+export interface Model {
+	parent?: string;
+	textures?: Record<string, string>;
+}
+
+export interface BlockModel extends Model {
+	elements?: {
+		name?: string;
+		from: [x: number, y: number, z: number];
+		to: [x: number, y: number, z: number];
+		rotation?:
+			| { origin: [x: number, y: number, z: number]; axis: "x" | "y" | "z"; angle: number; rescale?: boolean }
+			| { origin: [x: number, y: number, z: number]; x?: number; y?: number; z?: number; rescale?: boolean };
+	}[];
+}
+
+export interface Image {
+	hasFeature(feature: "translucency"): boolean;
+}
+
+
+export interface Pack {
+	rename(from: string, to: string): Pathed<Image> | undefined;
+	delete(path: string): Pathed<Image> | undefined;
+	exists(path: string): boolean;
+	image(path: string): Image | undefined;
+	
+	add(path: string, image: Image): void;
+
+	updateModel(path: string, cb: (model: Model) => Model, fallback?: Model): boolean;
+	updateBlockModel(path: string, cb: (model: BlockModel) => BlockModel, fallback?: BlockModel): boolean;
+	updateBlockState(path: string, cb: (model: Blockstate) => Blockstate, fallback?: Blockstate): boolean;
+	updateMcMeta(path: string, cb: (model: AnyMcMeta) => AnyMcMeta, fallback?: AnyMcMeta): boolean;
+
+	mcMetas(): Pathed<AnyMcMeta>[];
+	blockModels(): Pathed<BlockModel>[];
+	blockstates(): Pathed<Blockstate>[];
+	images(): Pathed<Image>[];
+
+	setFormatVersion(version: number): void;
+
+	mcMeta(path: string[]): Pathed<AnyMcMeta>[];
+	renameMcMeta(path: string[], to: string[]): Pathed<AnyMcMeta>[];
+	deleteMcMeta(path: string[]): Pathed<AnyMcMeta>[];
+}
+
+export interface Conversion {
+	pack: Pack;
+	info(info: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
+	warning(warn: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
+}
+
+export type VersionUp = (conv: Conversion, pack: Pack) => void;
+export type VersionDown = (conv: Conversion, pack: Pack) => void;
