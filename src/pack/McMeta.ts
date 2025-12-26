@@ -10,6 +10,21 @@ export interface LatestMcMeta {
 		frametime?: number;
 		frames?: (number | { index: number; time: number })[];
 	};
+	gui?: {
+		scaling?: {
+			type?: "nine_slice";
+			width?: number;
+			height?: number;
+			border?:
+				| number
+				| {
+						left: number;
+						top: number;
+						right: number;
+						bottom: number;
+				  };
+		};
+	};
 }
 
 export type AnyMcMeta = LatestMcMeta & {

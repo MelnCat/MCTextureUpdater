@@ -26,6 +26,7 @@ export const up: VersionUp = (conv, pack) => {
 			const image = pack.delete(sheet.path)!;
 			for (const sprite of sheet.sprites) {
 				pack.add(sprite.path, image.content.getSubimage(sprite.box.x, sprite.box.y, sprite.box.w, sprite.box.h));
+				if (sprite.meta) pack.addMcMeta(sprite.path, sprite.meta!);
 			}
 			conv.info("Converted into v18 format.", { paths: sheet.sprites.map(x => x.path) });
 		}
@@ -64,6 +65,10 @@ export const down: VersionDown = (conv, pack) => {
 					}))
 				)
 			);
+            // TODO: pull vanilla ones
+            for (const sprite of images) {
+                pack.deleteMcMeta(sprite.image.path);
+            }
 			conv.info("Converted from v18 format.", { path: sheet.path });
 		}
 	}

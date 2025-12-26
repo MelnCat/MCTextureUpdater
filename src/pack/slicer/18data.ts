@@ -1,50 +1,46 @@
+import type { AnyMcMeta } from "../McMeta";
 import { Box } from "./Box";
 
-const BUTTON_WIDGET_METADATA = `
-        {
-            "gui": {
-                "scaling": {
-                    "type": "nine_slice",
-                    "width": 200,
-                    "height": 20,
-                    "border": {
-                        "left": 20,
-                        "top": 4,
-                        "right": 20,
-                        "bottom": 4
-                    }
-                }
-            }
-        }
-        `;
-const TAB_WIDGET_METADATA = `
-        {
-            "gui": {
-                "scaling": {
-                    "type": "nine_slice",
-                    "width": 130,
-                    "height": 24,
-                    "border": {
-                        "left": 2,
-                        "top": 2,
-                        "right": 2,
-                        "bottom": 0
-                    }
-                }
-            }
-        }
-        `;
-
+const BUTTON_WIDGET_METADATA = {
+	gui: {
+		scaling: {
+			type: "nine_slice" as const,
+			width: 200,
+			height: 20,
+			border: {
+				left: 20,
+				top: 4,
+				right: 20,
+				bottom: 4,
+			},
+		},
+	},
+};
+const TAB_WIDGET_METADATA = {
+	gui: {
+		scaling: {
+			type: "nine_slice" as const,
+			width: 130,
+			height: 24,
+			border: {
+				left: 2,
+				top: 2,
+				right: 2,
+				bottom: 0,
+			},
+		},
+	},
+};
 export const makeSpriteData = (path: string, box: Box) => ({
 	path,
 	box,
-	meta: undefined as string | undefined,
-	metadata(meta: string) {
+	meta: undefined as AnyMcMeta | undefined,
+	metadata(meta: AnyMcMeta) {
 		this.meta = meta;
 		return this;
 	},
 });
-export const makeSheetData = (path: string, ...sprites: { path: string; box: Box }[]) => ({ path, sprites });
+export const makeSheetData = (path: string, ...sprites: { path: string; box: Box; meta?: AnyMcMeta | undefined }[]) => ({ path, sprites });
 export const v18Sheets = [
 	makeSheetData("textures/gui/chat_tags.png", makeSpriteData("textures/gui/sprites/icon/chat_modified.png", new Box(0, 0, 9, 9, 32, 32))),
 	makeSheetData(
@@ -161,18 +157,16 @@ export const v18Sheets = [
 	makeSheetData("textures/gui/info_icon.png", makeSpriteData("textures/gui/sprites/icon/info.png", new Box(0, 0, 20, 20, 20, 20))),
 	makeSheetData(
 		"textures/gui/advancements/widgets.png",
-		makeSpriteData("textures/gui/sprites/advancements/title_box.png", new Box(0, 52, 200, 26, 256, 256)).metadata(`
-                {
-                    "gui": {
-                        "scaling": {
-                            "type": "nine_slice",
-                            "width": 200,
-                            "height": 26,
-                            "border": 10
-                        }
-                    }
-                }
-                `),
+		makeSpriteData("textures/gui/sprites/advancements/title_box.png", new Box(0, 52, 200, 26, 256, 256)).metadata({
+			gui: {
+				scaling: {
+					type: "nine_slice",
+					width: 200,
+					height: 26,
+					border: 10,
+				},
+			},
+		}),
 		makeSpriteData("textures/gui/sprites/advancements/box_obtained.png", new Box(0, 0, 200, 26, 256, 256)),
 		makeSpriteData("textures/gui/sprites/advancements/task_frame_obtained.png", new Box(0, 128, 26, 26, 256, 256)),
 		makeSpriteData("textures/gui/sprites/advancements/challenge_frame_obtained.png", new Box(26, 128, 26, 26, 256, 256)),
@@ -237,18 +231,16 @@ export const v18Sheets = [
 	),
 	makeSheetData(
 		"textures/gui/container/bundle_background.png",
-		makeSpriteData("textures/gui/sprites/container/bundle/background.png", new Box(0, 0, 32, 32, 256, 256)).metadata(`
-                {
-                    "gui": {
-                        "scaling": {
-                            "type": "nine_slice",
-                            "width": 32,
-                            "height": 32,
-                            "border": 4
-                        }
-                    }
-                }
-                `)
+		makeSpriteData("textures/gui/sprites/container/bundle/background.png", new Box(0, 0, 32, 32, 256, 256)).metadata({
+			gui: {
+				scaling: {
+					type: "nine_slice",
+					width: 32,
+					height: 32,
+					border: 4,
+				},
+			},
+		})
 	),
 	makeSheetData(
 		"textures/gui/toasts.png",
@@ -297,13 +289,11 @@ export const v18Sheets = [
 	),
 	makeSheetData(
 		"realms:textures/gui/realms/trial_icon.png",
-		makeSpriteData("textures/gui/sprites/icon/trial_available.png", new Box(0, 0, 8, 16, 8, 16)).metadata(`
-                {
-                    "animation": {
-                        "frametime": 20
-                    }
-                }
-                `)
+		makeSpriteData("textures/gui/sprites/icon/trial_available.png", new Box(0, 0, 8, 16, 8, 16)).metadata({
+			animation: {
+				frametime: 20,
+			},
+		})
 	),
 	makeSheetData(
 		"textures/gui/container/grindstone.png",
@@ -472,18 +462,16 @@ export const v18Sheets = [
 		makeSpriteData("textures/gui/sprites/recipe_book/furnace_filter_disabled.png", new Box(152, 182, 26, 16, 256, 256)),
 		makeSpriteData("textures/gui/sprites/recipe_book/furnace_filter_enabled_highlighted.png", new Box(180, 200, 26, 16, 256, 256)),
 		makeSpriteData("textures/gui/sprites/recipe_book/furnace_filter_disabled_highlighted.png", new Box(152, 200, 26, 16, 256, 256)),
-		makeSpriteData("textures/gui/sprites/recipe_book/overlay_recipe.png", new Box(82, 208, 32, 32, 256, 256)).metadata(`
-                {
-                    "gui": {
-                        "scaling": {
-                            "type": "nine_slice",
-                            "width": 32,
-                            "height": 32,
-                            "border": 4
-                        }
-                    }
-                }
-                `),
+		makeSpriteData("textures/gui/sprites/recipe_book/overlay_recipe.png", new Box(82, 208, 32, 32, 256, 256)).metadata({
+			gui: {
+				scaling: {
+					type: "nine_slice",
+					width: 32,
+					height: 32,
+					border: 4,
+				},
+			},
+		}),
 		makeSpriteData("textures/gui/sprites/recipe_book/furnace_overlay_highlighted.png", new Box(152, 156, 24, 24, 256, 256)),
 		makeSpriteData("textures/gui/sprites/recipe_book/furnace_overlay.png", new Box(152, 130, 24, 24, 256, 256)),
 		makeSpriteData("textures/gui/sprites/recipe_book/crafting_overlay_highlighted.png", new Box(152, 104, 24, 24, 256, 256)),
@@ -513,18 +501,16 @@ export const v18Sheets = [
 		makeSpriteData("textures/gui/sprites/social_interactions/mute_button_highlighted.png", new Box(0, 58, 20, 20, 256, 256)),
 		makeSpriteData("textures/gui/sprites/social_interactions/unmute_button.png", new Box(20, 38, 20, 20, 256, 256)),
 		makeSpriteData("textures/gui/sprites/social_interactions/unmute_button_highlighted.png", new Box(20, 58, 20, 20, 256, 256)),
-		makeSpriteData("textures/gui/sprites/social_interactions/background.png", new Box(1, 1, 236, 34, 256, 256)).metadata(`
-                {
-                    "gui": {
-                        "scaling": {
-                            "type": "nine_slice",
-                            "width": 236,
-                            "height": 34,
-                            "border": 8
-                        }
-                    }
-                }
-                `),
+		makeSpriteData("textures/gui/sprites/social_interactions/background.png", new Box(1, 1, 236, 34, 256, 256)).metadata({
+			gui: {
+				scaling: {
+					type: "nine_slice",
+					width: 236,
+					height: 34,
+					border: 8,
+				},
+			},
+		}),
 		makeSpriteData("textures/gui/sprites/icon/search.png", new Box(243, 1, 12, 12, 256, 256))
 	),
 	makeSheetData(
