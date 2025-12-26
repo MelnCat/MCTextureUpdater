@@ -56,7 +56,8 @@ export const down: VersionDown = (conv, pack) => {
 	const out = mergeSheet(
 		128,
 		128,
-		decorations.flatMap((x, i) => (x ? { index: i, image: x.content! } : []))
+		decorations.flatMap((x, i) => (x ? { index: i, image: x.content! } : [])),
+        // TODO: vanilla sheet here
 	);
 	for (const img of decorations) {
 		pack.delete(`textures/map/decorations/${img.name}`);

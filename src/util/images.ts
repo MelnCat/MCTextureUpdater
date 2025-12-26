@@ -9,6 +9,10 @@ export const splitSheet = (
 	// todo
 };
 
-export const mergeSheet = (width: number, height: number, sprites: { index: number; image: Image }[]): Image => {
+export const mergeSheet = (width: number, height: number, sprites: { index: number; image: Image }[], fallback?: Image): Image => {
 	// todo
 };
+
+export const createImage = (width: number, height: number): Image => {
+
+}

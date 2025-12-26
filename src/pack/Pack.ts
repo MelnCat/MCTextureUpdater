@@ -24,6 +24,13 @@ export interface BlockModel extends Model {
 
 export interface Image {
 	hasFeature(feature: "translucency"): boolean;
+
+	getWidth(): number;
+	getHeight(): number;
+	getSubimage(x: number, y: number, w: number, h: number): Image;
+	clipImage(w: number, h: number): Image;
+	clipImageAt(x: number, y: number, w: number, h: number): Image;
+	drawImage(other: Image, x: number, y: number): Image;
 }
 
 
