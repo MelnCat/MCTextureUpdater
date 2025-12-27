@@ -174,27 +174,40 @@ const te = new TextEncoder();
 const td = new TextDecoder();
 
 export const zipPackFromZip = async (zip: Record<string, Uint8Array<ArrayBuffer>>): Promise<ZipPack> => {
-	const zipPack: Record<string, Entry> = {};
-	for (const [path, file] of Object.entries(zip)) {
-		if (path.endsWith(".png")) {
-			const bitmap = await createImageBitmap(new Blob([file], { type: "image/png" }));
-			zipPack[path] = {
-				path,
-				bitmap,
-				content: file,
-			};
-		} else if (path.endsWith(".json") || path.endsWith(".mcmeta")) {
-			zipPack[path] = {
-				path,
-				content: file,
-				textContent: td.decode(file),
-			};
-		} else {
-			zipPack[path] = {
-				path,
-				content: file,
-			};
-		}
-	}
-	return new ZipPack(zipPack);
+	return new ZipPack(
+		Object.fromEntries(
+			await Promise.all(
+				Object.entries(zip).map(async ([path, file]) => {
+					if (path.endsWith(".png")) {
+						const bitmap = await createImageBitmap(new Blob([file], { type: "image/png" }));
+						return [
+							path,
+							{
+								path,
+								bitmap,
+								content: file,
+							},
+						] as const;
+					} else if (path.endsWith(".json") || path.endsWith(".mcmeta")) {
+						return [
+							path,
+							{
+								path,
+								content: file,
+								textContent: td.decode(file),
+							},
+						] as const;
+					} else {
+						return [
+							path,
+							{
+								path,
+								content: file,
+							},
+						] as const;
+					}
+				})
+			)
+		)
+	);
 };
