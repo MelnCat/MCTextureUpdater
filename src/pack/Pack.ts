@@ -31,6 +31,7 @@ export interface Image {
 	clipImage(w: number, h: number): Image;
 	clipImageAt(x: number, y: number, w: number, h: number): Image;
 	drawImage(other: Image, x: number, y: number): Image;
+    scaled(w: number, h: number): Image;
 }
 
 
@@ -61,12 +62,15 @@ export interface Pack {
 	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta>[];
 	deleteMcMeta(path: string): Pathed<AnyMcMeta>[];
 
+    packMcMeta(): PackMcMeta
+
 }
 
 export interface Conversion {
 	pack: Pack;
 	info(info: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
 	warning(warn: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
+	urgent(warn: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
     
     vanillaFile(path: string): Image;
 }
