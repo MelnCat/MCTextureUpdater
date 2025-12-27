@@ -31,7 +31,7 @@ const TAB_WIDGET_METADATA = {
 		},
 	},
 };
-export const makeSpriteData = (path: string, box: Box) => ({
+ const makeSpriteData = (path: string, box: Box) => ({
 	path,
 	box,
 	meta: undefined as AnyMcMeta | undefined,
@@ -40,7 +40,7 @@ export const makeSpriteData = (path: string, box: Box) => ({
 		return this;
 	},
 });
-export const makeSheetData = (path: string, ...sprites: { path: string; box: Box; meta?: AnyMcMeta | undefined }[]) => ({ path, sprites });
+ const makeSheetData = (path: string, ...sprites: { path: string; box: Box; meta?: AnyMcMeta | undefined }[]) => ({ path, sprites });
 export const v18Sheets = [
 	makeSheetData("textures/gui/chat_tags.png", makeSpriteData("textures/gui/sprites/icon/chat_modified.png", new Box(0, 0, 9, 9, 32, 32))),
 	makeSheetData(

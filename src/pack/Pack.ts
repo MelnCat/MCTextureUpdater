@@ -1,5 +1,5 @@
 import type { Blockstate } from "./Blockstate";
-import type { AnyMcMeta } from "./McMeta";
+import type { AnyMcMeta, PackMcMeta } from "./McMeta";
 
 export interface Pathed<T> {
 	content: T;
@@ -28,14 +28,15 @@ export interface Image {
 	getWidth(): number;
 	getHeight(): number;
 	getSubimage(x: number, y: number, w: number, h: number): Image;
-	clipImage(w: number, h: number): Image;
-	clipImageAt(x: number, y: number, w: number, h: number): Image;
-	drawImage(other: Image, x: number, y: number): Image;
+    
     scaled(w: number, h: number): Image;
     rotated(degrees: number): Image;
     flipped(direction: "v" | "h"): Image;
 
     bWAlpha(): Image;
+
+	toImageSource(): CanvasImageSource;
+	toBlob(): Promise<Blob>;
 }
 
 
@@ -52,7 +53,6 @@ export interface Pack {
 
 	updateModel(path: string, cb: (model: Model) => Model, fallback?: Model): boolean;
 	updateBlockModel(path: string, cb: (model: BlockModel) => BlockModel, fallback?: BlockModel): boolean;
-	updateBlockState(path: string, cb: (model: Blockstate) => Blockstate, fallback?: Blockstate): boolean;
 	updateMcMeta(path: string, cb: (model: AnyMcMeta) => AnyMcMeta, fallback?: AnyMcMeta): boolean;
 
 	mcMetas(): Pathed<AnyMcMeta>[];
@@ -62,12 +62,15 @@ export interface Pack {
 
 	setFormatVersion(version: number): void;
 
-	mcMeta(path: string[]): Pathed<AnyMcMeta>[];
-	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta>[];
-	deleteMcMeta(path: string): Pathed<AnyMcMeta>[];
+	mcMeta(path: string): Pathed<AnyMcMeta> | undefined;
+	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta> | undefined;
+	deleteMcMeta(path: string): Pathed<AnyMcMeta> | undefined;
 
     packMcMeta(): PackMcMeta
+    
+	renameDirectory(from: string, to: string): void;
 
+	toZip(): Promise<Record<string,Uint8Array<ArrayBuffer>>>
 }
 
 export interface Conversion {

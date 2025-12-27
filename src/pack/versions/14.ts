@@ -1,6 +1,6 @@
 import type { VersionDown, VersionUp } from "../Pack";
 
-export const version = 15;
+export const version = 14;
 export const up: VersionUp = (conv, pack) => {
     if (pack.exists("textures/gui/title/minecraft")) {
         conv.urgent("textures/gui/title/minecraft has a different incompatible format after 15.",
