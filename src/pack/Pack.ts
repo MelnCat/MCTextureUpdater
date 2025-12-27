@@ -32,6 +32,10 @@ export interface Image {
 	clipImageAt(x: number, y: number, w: number, h: number): Image;
 	drawImage(other: Image, x: number, y: number): Image;
     scaled(w: number, h: number): Image;
+    rotated(degrees: number): Image;
+    flipped(direction: "v" | "h"): Image;
+
+    bWAlpha(): Image;
 }
 
 

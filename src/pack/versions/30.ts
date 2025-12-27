@@ -42,7 +42,8 @@ export const version = 30;
 export const up: VersionUp = (conv, pack) => {
 	const image = pack.delete("textures/map/map_icons");
 	if (!image) return;
-	const out = splitSheet(image.content, 8, 8, icons);
+    const scale = image.content.getWidth() / 128;
+	const out = splitSheet(image.content, 8 * scale, 8 * scale, icons);
 	for (const img of out) {
 		pack.add(`textures/map/decorations/${img.name}`, img.image);
 	}
@@ -53,10 +54,11 @@ export const up: VersionUp = (conv, pack) => {
 export const down: VersionDown = (conv, pack) => {
 	if (icons.some(x => pack.exists(`textures/map/decorations/${x}`))) {
 		const decorations = icons.map(x => ({ name: x, content: pack.image(`textures/map/decorations/${x}`) ?? conv.vanillaFile(`textures/map/decorations/${x}`) }));
+        const maxScale = Math.max(...decorations.map(x => x.content.getWidth() / 8))
 		const out = mergeSheet(
-			128,
-			128,
-			decorations.flatMap((x, i) => ({ index: i, image: x.content! }))
+			128 * maxScale,
+			128 * maxScale,
+			decorations.flatMap((x, i) => ({ index: i, image: x.content!.scaled(8 * maxScale, 8 * maxScale) }))
 		);
 		for (const img of decorations) {
 			pack.delete(`textures/map/decorations/${img.name}`);

@@ -13,7 +13,7 @@ export const mergeSheet = (width: number, height: number, sprites: { index: numb
 	// todo
 };
 
-export const createImage = (width: number, height: number): Image => {
+export const createImage = (width: number, height: number, color: string): Image => {
 
 }
 
