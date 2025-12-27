@@ -51,20 +51,20 @@ export const up: VersionUp = (conv, pack) => {
 	});
 };
 export const down: VersionDown = (conv, pack) => {
-	const decorations = icons.map(x => ({ name: x, content: pack.image(`textures/map/decorations/${x}`) }));
-	if (!decorations.some(x => x.content !== undefined)) return;
-	const out = mergeSheet(
-		128,
-		128,
-		decorations.flatMap((x, i) => (x ? { index: i, image: x.content! } : [])),
-        // TODO: vanilla sheet here
-	);
-	for (const img of decorations) {
-		pack.delete(`textures/map/decorations/${img.name}`);
-	}
-	pack.add(`textures/map/map_icons`, out);
+	if (icons.some(x => pack.exists(`textures/map/decorations/${x}`))) {
+		const decorations = icons.map(x => ({ name: x, content: pack.image(`textures/map/decorations/${x}`) ?? conv.vanillaFile(`textures/map/decorations/${x}`) }));
+		const out = mergeSheet(
+			128,
+			128,
+			decorations.flatMap((x, i) => ({ index: i, image: x.content! }))
+		);
+		for (const img of decorations) {
+			pack.delete(`textures/map/decorations/${img.name}`);
+		}
+		pack.add(`textures/map/map_icons`, out);
 
-	conv.info(`Map decorations merged into a single file due to changes from 30.`, {
-		path: "textures/map/map_icons",
-	});
+		conv.info(`Map decorations merged into a single file due to changes from 30.`, {
+			path: "textures/map/map_icons",
+		});
+	}
 };

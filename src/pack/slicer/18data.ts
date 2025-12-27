@@ -36,7 +36,7 @@ export const makeSpriteData = (path: string, box: Box) => ({
 	box,
 	meta: undefined as AnyMcMeta | undefined,
 	metadata(meta: AnyMcMeta) {
-		this.meta = meta;
+		meta = meta;
 		return this;
 	},
 });
@@ -680,3 +680,93 @@ export const v18Sheets = [
 		makeSpriteData("textures/gui/sprites/statistics/sort_down.png", new Box(18, 0, 18, 18, 128, 128))
 	),
 ];
+
+const clip3 = (from: string, to: string, box: Box) => ({
+	from,
+	to,
+	box,
+});
+
+const clip = (path: string, box: Box) => clip3(path, path, box);
+
+const STANDARD_CONTAINER_BOX = new Box(0, 0, 176, 166, 256, 256);
+
+export const v18Misc = {
+	movedRealms: [
+		"realms/adventure",
+		"realms/darken",
+		"realms/empty_frame",
+		"realms/experience",
+		"realms/inspiration",
+		"realms/new_world",
+		"realms/popup",
+		"realms/survival_spawn",
+		"realms/upload",
+		"title/realms",
+	],
+	copy: [
+		"advancements/backgrounds/adventure",
+		"advancements/backgrounds/end",
+		"advancements/backgrounds/husbandry",
+		"advancements/backgrounds/nether",
+		"advancements/backgrounds/stone",
+		"advancements/backgrounds/window",
+		"advancements/window",
+		"container/creative_inventory/tab_inventory",
+		"container/creative_inventory/tab_item_search",
+		"container/creative_inventory/tab_items",
+		"container/generic_54",
+		"hanging_signs/acacia",
+		"hanging_signs/bamboo",
+		"hanging_signs/birch",
+		"hanging_signs/cherry",
+		"hanging_signs/crimson",
+		"hanging_signs/dark_oak",
+		"hanging_signs/jungle",
+		"hanging_signs/mangrove",
+		"hanging_signs/oak",
+		"hanging_signs/spruce",
+		"hanging_signs/warped",
+		"presets/isles",
+		"title/background/panorama_0",
+		"title/background/panorama_1",
+		"title/background/panorama_2",
+		"title/background/panorama_3",
+		"title/background/panorama_4",
+		"title/background/panorama_5",
+		"title/background/panorama_overlay",
+		"title/edition",
+		"title/minceraft",
+		"title/minecraft",
+		"title/mojangstudios",
+		"demo_background",
+		"footer_separator",
+		"header_separator",
+		"light_dirt_background",
+		"options_background",
+	],
+	clip: [
+		clip("container/anvil", STANDARD_CONTAINER_BOX),
+		clip("container/beacon", new Box(0, 0, 230, 219, 256, 256)),
+		clip("container/blast_furnace", STANDARD_CONTAINER_BOX),
+		clip("container/brewing_stand", STANDARD_CONTAINER_BOX),
+		clip("container/cartography_table", STANDARD_CONTAINER_BOX),
+		clip("container/crafting_table", STANDARD_CONTAINER_BOX),
+		clip("container/dispenser", STANDARD_CONTAINER_BOX),
+		clip("container/enchanting_table", STANDARD_CONTAINER_BOX),
+		clip("container/furnace", STANDARD_CONTAINER_BOX),
+		clip("container/gamemode_switcher", new Box(0, 0, 125, 75, 128, 128)),
+		clip("container/grindstone", STANDARD_CONTAINER_BOX),
+		clip("container/hopper", new Box(0, 0, 176, 133, 256, 256)),
+		clip("container/horse", STANDARD_CONTAINER_BOX),
+		clip("container/inventory", STANDARD_CONTAINER_BOX),
+		clip("container/loom", STANDARD_CONTAINER_BOX),
+		clip("container/shulker_box", STANDARD_CONTAINER_BOX),
+		clip("container/smithing", STANDARD_CONTAINER_BOX),
+		clip("container/smoker", STANDARD_CONTAINER_BOX),
+		clip("container/stonecutter", STANDARD_CONTAINER_BOX),
+		clip3("container/villager2", "container/villager", new Box(0, 0, 276, 166, 512, 256)),
+		clip("book", new Box(20, 1, 146, 180, 256, 256)),
+		clip("recipe_book", new Box(0, 0, 149, 168, 256, 256)),
+	],
+};

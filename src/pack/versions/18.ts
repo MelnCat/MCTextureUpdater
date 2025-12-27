@@ -1,6 +1,6 @@
 import { mergeSheet, placeImages, splitSheet } from "../../util/images";
-import type { VersionDown, VersionUp } from "../Pack";
-import { v18Sheets } from "../slicer/18data";
+import type { Image, Pathed, VersionDown, VersionUp } from "../Pack";
+import { v18Misc, v18Sheets } from "../slicer/18data";
 
 export const version = 18;
 export const up: VersionUp = (conv, pack) => {
@@ -36,8 +36,42 @@ export const up: VersionUp = (conv, pack) => {
 		conv.pack.add("textures/gui/sprites/container/loom/error", image.content.getSubimage(176, 17, 17, 16).getSubimage(0, 0, 26, 26));
 		conv.info("Converted into v18 format.", { path: "textures/gui/sprites/container/loom/error" });
 	}
+	for (const move of v18Misc.movedRealms) {
+		const from = `realms:textures/gui/${move}`;
+		const to = `textures/gui/${move}`;
+		if (pack.exists(from)) {
+			pack.rename(from, to);
+			pack.renameMcMeta(from, to);
+			conv.info("Moved from realms: to minecraft: due to v18 changes.", { path: to });
+		}
+	}
+	for (const clip of v18Misc.clip) {
+		const from = `textures/gui/${clip.from}`;
+		const to = `textures/gui/${clip.to}`;
+		const image = pack.delete(from);
+		if (image) {
+			pack.add(
+				to,
+				image.content
+					.getSubimage(clip.box.x, clip.box.y, clip.box.w, clip.box.h)
+					.getSubimage(0, 0, clip.box.totalW, clip.box.totalH)
+			);
+			conv.info("Converted into v18 format.", { path: to });
+		}
+	}
 };
 export const down: VersionDown = (conv, pack) => {
+	const toClip: { image: Image; from: string; to: string }[] = [];
+
+	for (const clip of v18Misc.clip) {
+		const from = `textures/gui/${clip.to}`;
+		const to = `textures/gui/${clip.from}`;
+		const fromImage = pack.image(from);
+		if (fromImage) {
+			toClip.push({ from, to, image: fromImage });
+			pack.delete(from);
+		}
+	}
 	if (pack.exists("textures/gui/sprites/realm_status/expires_soon")) {
 		const image = pack.delete("textures/gui/sprites/realm_status/expires_soon")!;
 		conv.pack.add(
@@ -52,7 +86,7 @@ export const down: VersionDown = (conv, pack) => {
 	}
 	for (const sheet of v18Sheets) {
 		if (sheet.sprites.some(x => pack.exists(x.path))) {
-			const images = sheet.sprites.filter(x => pack.exists(x.path)).map(x => ({ image: pack.delete(x.path)!, sprite: x }));
+			const images = sheet.sprites.filter(x => pack.exists(x.path)).map(x => ({ image: pack.delete(x.path)! ?? conv.vanillaFile(x.path), sprite: x }));
 			pack.add(
 				sheet.path,
 				placeImages(
@@ -65,11 +99,34 @@ export const down: VersionDown = (conv, pack) => {
 					}))
 				)
 			);
-            // TODO: pull vanilla ones
-            for (const sprite of images) {
-                pack.deleteMcMeta(sprite.image.path);
-            }
+			for (const sprite of images) {
+				pack.deleteMcMeta(sprite.image.path);
+			}
 			conv.info("Converted from v18 format.", { path: sheet.path });
 		}
+	}
+	for (const move of v18Misc.movedRealms) {
+		const from = `textures/gui/${move}`;
+		const to = `realms:textures/gui/${move}`;
+		if (pack.exists(from)) {
+			pack.rename(from, to);
+			pack.renameMcMeta(from, to);
+			conv.info("Moved from minecraft: to realms: due to v18 changes.", { path: to });
+		}
+	}
+	for (const clip of toClip) {
+		const dest = pack.image(clip.to);
+		if (dest) {
+			pack.add(
+				clip.to,
+				placeImages(dest.getWidth(), dest.getHeight(), [
+					{ x: 0, y: 0, image: dest },
+					{ x: 0, y: 0, image: clip.image },
+				])
+			);
+		} else {
+			pack.add(clip.to, clip.image);
+		}
+		conv.info("Converted from v18 format.", { path: clip.to });
 	}
 };

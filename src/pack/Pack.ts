@@ -43,6 +43,8 @@ export interface Pack {
 	add(path: string, image: Image): void;
 	addMcMeta(path: string, meta: AnyMcMeta): void;
 
+    deleteFolder(path: string): void;
+
 	updateModel(path: string, cb: (model: Model) => Model, fallback?: Model): boolean;
 	updateBlockModel(path: string, cb: (model: BlockModel) => BlockModel, fallback?: BlockModel): boolean;
 	updateBlockState(path: string, cb: (model: Blockstate) => Blockstate, fallback?: Blockstate): boolean;
@@ -58,12 +60,15 @@ export interface Pack {
 	mcMeta(path: string[]): Pathed<AnyMcMeta>[];
 	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta>[];
 	deleteMcMeta(path: string): Pathed<AnyMcMeta>[];
+
 }
 
 export interface Conversion {
 	pack: Pack;
 	info(info: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
 	warning(warn: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
+    
+    vanillaFile(path: string): Image;
 }
 
 export type VersionUp = (conv: Conversion, pack: Pack) => void;
