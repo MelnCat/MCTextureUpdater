@@ -56,7 +56,7 @@
 	{
 		"version": 11,
 		"mcVersions": "22w42a – 22w44a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Removed \"fixers\" for resource packs with a pack_format value of 3 and 4 (pre-flattening);\nthe game will no longer try to adapt packs with those values to the current version."
 	},
 	{
@@ -74,7 +74,7 @@
 	{
 		"version": 14,
 		"mcVersions": "23w14a – 23w16a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Updated the sprite layout of minecraft.png and invite_icon.png. minecraft.png logo has been reworked to be high quality and is no longer split across 2 rows."
 	},
 	{
@@ -86,13 +86,13 @@
 	{
 		"version": 16,
 		"mcVersions": "23w31a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Pack metadata now includes an optional field supported_formats which describes a range for pack formats that this pack supports. Packs can now contain overlay directories (\"overlays\")."
 	},
 	{
 		"version": 17,
 		"mcVersions": "23w32a – 1.20.2-pre1",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "The text field background is now a nine-sliced sprite at widget/text_field, and widget/text_field_highlighted. The scroll bar in lists and text fields is now a nine-sliced sprite at widget/scroller. Added new village structure icons to map_icons.png."
 	},
 	{
@@ -104,19 +104,19 @@
 	{
 		"version": 19,
 		"mcVersions": "23w42a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added block model, item model and block state definitions for Crafter. Associated GUI slot texture and sprites have also been added as well."
 	},
 	{
 		"version": 20,
 		"mcVersions": "23w43a – 23w44a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "The bat has a new model, resulting the texture mappings for bat.png to be changed.\n"
 	},
 	{
 		"version": 21,
 		"mcVersions": "23w45a – 23w46a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Now support only .png files for textures.\n"
 	},
 	{
@@ -128,43 +128,43 @@
 	{
 		"version": 24,
 		"mcVersions": "24w03a – 24w04a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Adjusted the texture of the Wolf Collar layer to be more consistent with the new Wolf Armor.\n\nThe ttf font provider transforms have been adjusted to have more reasonable defaults."
 	},
 	{
 		"version": 25,
 		"mcVersions": "24w05a – 24w05b",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added texture and model files for vault block.\nRemoved unused attributes in core shader definitions."
 	},
 	{
 		"version": 26,
 		"mcVersions": "24w06a – 24w07a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added font variant filters."
 	},
 	{
 		"version": 28,
 		"mcVersions": "24w09a – 24w10a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Adjusted menu GUI textures. Added additional textures to support colored layers of wolf armor for the wolf model and wolf armor item. Added three semi-transparent textures for the cracks to show on the wolf armor layer."
 	},
 	{
 		"version": 29,
 		"mcVersions": "24w11a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Adjusted menu GUI textures."
 	},
 	{
 		"version": 30,
 		"mcVersions": "24w12a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Split map_icons.png into individual sprites in the textures/map/decorations directory."
 	},
 	{
 		"version": 31,
 		"mcVersions": "24w13a – 1.20.5-pre3",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added new particle types and sound events."
 	},
 	{
@@ -176,7 +176,7 @@
 	{
 		"version": 33,
 		"mcVersions": "24w18a – 24w20a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "The sound events for ominous trial spawner becoming active and ambient sound were renamed.\nAdded new music discs."
 	},
 	{
@@ -188,43 +188,43 @@
 	{
 		"version": 35,
 		"mcVersions": "24w33a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Changed shaders and post-process effects."
 	},
 	{
 		"version": 36,
 		"mcVersions": "24w34a – 24w35a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Changed shader and post-process effect definitions and imports."
 	},
 	{
 		"version": 37,
 		"mcVersions": "24w36a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Introduced equipment models and more customizable tooltips."
 	},
 	{
 		"version": 38,
 		"mcVersions": "24w37a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added GUI Sprite of the highlighted slots."
 	},
 	{
 		"version": 39,
 		"mcVersions": "24w38a – 24w39a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added Bundle variants and changed torch models."
 	},
 	{
 		"version": 40,
 		"mcVersions": "24w40a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Increased to support the new experimental changes."
 	},
 	{
 		"version": 41,
 		"mcVersions": "1.21.2-pre1 – 1.21.2-pre2",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added texture for empty air bubble and sound for when air bubble pops."
 	},
 	{
@@ -236,19 +236,19 @@
 	{
 		"version": 43,
 		"mcVersions": "24w44a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added resin, eyeblossoms, and changes some GUI sprites and magma cube texture layout with UV mapping."
 	},
 	{
 		"version": 44,
 		"mcVersions": "24w45a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Adds new format for data-driven item models."
 	},
 	{
 		"version": 45,
 		"mcVersions": "24w46a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "All blocks that previously rendered only block entity will now also render normal block model over it."
 	},
 	{
@@ -260,49 +260,49 @@
 	{
 		"version": 47,
 		"mcVersions": "25w02a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added wildflowers, falling leaves, and new pig textures."
 	},
 	{
 		"version": 48,
 		"mcVersions": "25w03a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Changed the size of the pig_saddle texture and added new equipment layer to pigs and striders."
 	},
 	{
 		"version": 49,
 		"mcVersions": "25w04a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Changed item model components."
 	},
 	{
 		"version": 50,
 		"mcVersions": "25w05a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added new cow variants and new bush blocks."
 	},
 	{
 		"version": 51,
 		"mcVersions": "25w06a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added new chicken textures, new eggs, cactus flower, and tall and short dry grass."
 	},
 	{
 		"version": 52,
 		"mcVersions": "25w07a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Updated mooshroom model, removed shader program definitions for core shaders and post-processing effects as JSON files, and updated item rendering."
 	},
 	{
 		"version": 53,
 		"mcVersions": "25w08a – 25w09b",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Updated spawn egg textures, removed spawn_egg.png and spawn_egg_overlay.png, added an undercoat texture to sheep, and changed wolf sounds."
 	},
 	{
 		"version": 54,
 		"mcVersions": "25w10a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Renamed misc/enchanted_glint_entity.png to misc/enchanted_glint_armor.png, and \"global\" uniforms may now be defined in any shader and the game will attempt to fill it."
 	},
 	{
@@ -314,43 +314,43 @@
 	{
 		"version": 56,
 		"mcVersions": "25w15a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "The game will now consistently respect blur texture parameter in .png.mcmeta files."
 	},
 	{
 		"version": 57,
 		"mcVersions": "25w16a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "All core shader uniforms are now uniform blocks, clouds.png can no longer be colored, and Block Model rotations are no longer limited to multiplies of 22.5."
 	},
 	{
 		"version": 58,
 		"mcVersions": "25w17a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "FOG_IS_SKY has been removed."
 	},
 	{
 		"version": 59,
 		"mcVersions": "25w18a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Locator bar arrows are now animated using the standard method. Unifont updated to 16.0.03. UNIHEX font provider's size_overrides field is now optional."
 	},
 	{
 		"version": 60,
 		"mcVersions": "25w19a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Panorama textures must now all be the same size and square."
 	},
 	{
 		"version": 61,
 		"mcVersions": "25w20a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added icon/music_notes and toast/now_playing sprites."
 	},
 	{
 		"version": 62,
 		"mcVersions": "25w21a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added entity/leashknot/break sound, renamed leash sound names,and added sounds for shearing Saddles, Horse Armor, and Carpets from Llamas."
 	},
 	{
@@ -368,37 +368,37 @@
 	{
 		"version": [65, 0],
 		"mcVersions": "25w31a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Pack format now includes minor versions, which are incremented instead of major versions when non-breaking changes are made. Some post-proccessing vertex shaders have been merged, are no longer passed the Position attribute, and are now exectued with a triangle instead of a quad."
 	},
 	{
 		"version": [65, 1],
 		"mcVersions": "25w32a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added new textures, sounds, models, etc, for the new copper blocks. Added copper_fire_flame particle."
 	},
 	{
 		"version": [65, 2],
 		"mcVersions": "25w33a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added environment/end_flash.png texture. Added sounds and sound event for end flashes weather.end_flash. Some changes to the core/lightmap.fsh shader."
 	},
 	{
 		"version": [66, 0],
 		"mcVersions": "25w34a – 25w34b",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Removed the align_items_to_bottom blockstate from shelves."
 	},
 	{
 		"version": [67, 0],
 		"mcVersions": "25w35a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Changed block and item sprite chain to iron_chain."
 	},
 	{
 		"version": [68, 0],
 		"mcVersions": "25w36a – 25w36b",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "UV calculations in the minecraft_sample_lightmap function of core/terrain.vsh have been slightly tweaked."
 	},
 	{
@@ -410,37 +410,37 @@
 	{
 		"version": [70, 0],
 		"mcVersions": "25w41a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Updated Unifont.\nMoved sun and end flash textures into environment/celestial/. Split and moved moon phases into environment/celestial/moon/.\ntexture section of *.mcmeta files has a new boolean field darkened_cutout_mipmap controlling how mipmap textures are created.\nGlass and glass panes now support translucent textures"
 	},
 	{
 		"version": [70, 1],
 		"mcVersions": "25w42a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Tweaked copper chest textures."
 	},
 	{
 		"version": [71, 0],
 		"mcVersions": "25w43a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added new sound event for the nautilus item.underwater_saddle.equip.\nThe darkened_cutout_mipmap field of the texture section of *.mcmeta files has been replaced by a new field mipmap_strategy.\nbeacons and redstone dust now support translucent textures.\nAdded mipmap_strategy settings to *.mcmeta files for various foliage textures."
 	},
 	{
 		"version": [72, 0],
 		"mcVersions": "25w44a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Tweaked spear textures.\nVarious changes made to the core/terrain shader for texxel anti-aliasing and chunk fading.\nAdded new shader, core/block, for rendering 'ad-hoc blocks' such as falling blocks.\nAdded new shaders for rendering sprite animations core/animate_sprite.vsh, core/animate_sprite_blit.fsh, and core/animate_sprite_interpolate.fsh.\nAdded two new uniforms, ivec3 CameraBlockPos and vec3 CameraOffset, to the Globals uniform block."
 	},
 	{
 		"version": [73, 0],
 		"mcVersions": "25w45a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Item textures were split out of the blocks atlas into a separate new items atlas that does not have mipmaps.\nAll textures used in an item model have to come from the same (items or blocks) atlas.\nAll textures used in a block model have to come from the blocks atlas."
 	},
 	{
 		"version": [74, 0],
 		"mcVersions": "25w46a",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "Added entity.zombie_horse.eat sound event.\nThe model format has been updated to support multi-axis rotation.\nThe blockstate format has been updated to allow rotation on the z axis.\nTo prepare for future work, the game will now print a warning if any defined sprites in any atlases share a name.\nBeacons no longer support translucent textures.\nTextures used for still water and lava are now hardcoded to minecraft:block/water_still and minecraft:block/lava_still as opposed to using the flowing models particle texture."
 	},
 	{
@@ -452,7 +452,7 @@
 	{
 		"version": [76, 0],
 		"mcVersions": "26.1-snap1",
-		"mcReleases": "–",
+		"mcReleases": null,
 		"changes": "​[more information needed]"
 	}
 ]
