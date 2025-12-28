@@ -1,7 +1,9 @@
 export interface LatestMcMeta {
 	texture?: {
 		mipmap_strategy?: string;
-		alpha_cutoff_bias?: string;
+		alpha_cutoff_bias?: number;
+        clamp?: boolean;
+        blur?: boolean;
 	};
 	animation?: {
 		interpolate?: boolean;
