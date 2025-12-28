@@ -39,7 +39,7 @@ export interface Image {
 	toBlob(): Promise<Blob>;
 }
 
-
+export type PackFormatVersion = number[] | number;
 export interface Pack {
 	rename(from: string, to: string): Pathed<Image> | undefined;
 	delete(path: string): Pathed<Image> | undefined;
@@ -60,7 +60,8 @@ export interface Pack {
 	blockstates(): Pathed<Blockstate>[];
 	images(): Pathed<Image>[];
 
-	setFormatVersion(version: number): void;
+	setFormatVersion(version: PackFormatVersion): void;
+    getFormatVersion(): PackFormatVersion;
 
 	mcMeta(path: string): Pathed<AnyMcMeta> | undefined;
 	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta> | undefined;

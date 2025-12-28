@@ -43,7 +43,7 @@ export const down: VersionDown = async (conv, pack) => {
 	for (const sheet of v4Data) {
 		if (!sheet.sprites.some(x => pack.exists(x.path))) continue;
 		if (sheet.sprites.some(x => !pack.image(x.path))) await conv.loadVanilla();
-		const sprites = sheet.sprites.map(x => ({ sprite: x, image: pack.image(x.path) ?? conv.vanillaFile(x.path) }));
+		const sprites = sheet.sprites.map(x => ({ sprite: x, image: pack.delete(x.path)?.content ?? conv.vanillaFile(x.path) }));
 		const maxScale = Math.max(...sprites.map(x => x.image.getWidth() / x.sprite.box.w));
 		if (sheet.path.includes("textures/gui/container/inventory")) {
 			if (!pack.image("textures/gui/container/inventory")) await conv.loadVanilla();

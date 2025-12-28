@@ -1,7 +1,7 @@
 import { CanvasImage } from "../util/images";
 import type { Blockstate } from "./Blockstate";
 import type { AnyMcMeta, PackMcMeta } from "./McMeta";
-import type { BlockModel, Image, Model, Pack, Pathed } from "./Pack";
+import type { BlockModel, Image, Model, Pack, PackFormatVersion, Pathed } from "./Pack";
 
 type Entry = {
 	path: string;
@@ -105,9 +105,9 @@ export class ZipPack implements Pack {
 			.filter(x => x.path.endsWith(".png"))
 			.map(x => this.toImage(x));
 	}
-	setFormatVersion(version: number): void {
+	setFormatVersion(version: PackFormatVersion): void {
 		const packMcMeta = this.packMcMeta();
-		if (version >= 65) {
+		if (typeof version !== "number" || version >= 65) {
 			this.zip["pack.mcmeta"] = {
 				path: "pack.mcmeta",
 				textContent: JSON.stringify(
@@ -141,7 +141,7 @@ export class ZipPack implements Pack {
 			};
 		}
 	}
-	getFormatVersion(): number {
+	getFormatVersion(): PackFormatVersion {
 		const packMcMeta = this.packMcMeta();
 		return packMcMeta.pack.pack_format!;
 	}

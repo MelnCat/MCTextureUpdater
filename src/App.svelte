@@ -6,7 +6,7 @@
 
 	let files = $state<FileList>();
 	let folder = $state<FileList>();
-	let target = $state<number>(75);
+	let target = $state<number>(versions.length - 1);
 
 	const start = async () => {
 		let data = (
@@ -14,7 +14,9 @@
 				? Object.entries(unzipSync(new Uint8Array(await files[0].arrayBuffer())))
 				: await Promise.all([...folder!].map(async x => [x.webkitRelativePath, new Uint8Array(await x.arrayBuffer())] as const))
 		).filter(x => x[1].length);
-		const name = files?.length ? files[0].name.replace(/\.zip$/, "") : data.find(x => x[0].split("/").includes("pack.mcmeta"))![0].split("/")[0];
+		const name = files?.length
+			? files[0].name.replace(/\.zip$/, "")
+			: data.find(x => x[0].split("/").includes("pack.mcmeta"))![0].split("/")[0];
 		const packMcMeta = data.find(x => x[0].split("/").includes("pack.mcmeta"));
 		if (!packMcMeta) {
 			const assetsDir = data.find(x => x[0].split("/").includes("assets"));
@@ -57,13 +59,14 @@
 			},
 		};
 
-		await performVersionChange(conversion, zipPack, zipPack.getFormatVersion(), target);
-		
+		const targetVersion = versions[target];
+		await performVersionChange(conversion, zipPack, zipPack.getFormatVersion(), targetVersion.version);
+
 		const blob = new Blob([zipSync(await zipPack.toZip()) as Uint8Array<ArrayBuffer>], { type: "application/zip" });
 		const url = URL.createObjectURL(blob);
 		const link = document.createElement("a");
 		link.href = url;
-		link.download = `${name}-v${target}.zip`;
+		link.download = `${name}-v${typeof targetVersion.version === "number" ? targetVersion.version : targetVersion.version.join(".")}.zip`;
 		link.click();
 		URL.revokeObjectURL(url);
 	};
@@ -82,8 +85,10 @@
 	<div>
 		<label for="target">Target version</label>
 		<select name="target" bind:value={target}>
-			{#each versions as v}
-				<option value={v.version} selected={v === versions.at(-1)}>{v.version}</option>
+			{#each versions as v, i}
+				<option value={i} selected={v === versions.at(-1)}
+					>{typeof v.version === "number" ? v.version : v.version.join(".")} ({v.mcVersions})</option
+				>
 			{/each}
 		</select>
 	</div>
