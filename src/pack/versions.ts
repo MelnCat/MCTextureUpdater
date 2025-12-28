@@ -5,9 +5,10 @@ interface Version {
 	up: VersionUp;
 	down: VersionDown;
 }
-export const versions = ((await Promise.all(Object.values(import.meta.glob(`./versions/*.ts`)).map(x => x()))) as Version[]).sort(
-	(a, b) => a.version - b.version
-);
+const modules = import.meta.glob("./versions/*.ts", { eager: true });
+export const versions = (
+	Object.values(modules) as Version[]
+).sort((a, b) => a.version - b.version);
 
 export const performVersionChange = async (conv: Conversion, pack: Pack, from: number, to: number) => {
 	if (from === to) return;
