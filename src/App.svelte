@@ -6,7 +6,7 @@
 
 	let files = $state<FileList>();
 	let folder = $state<FileList>();
-	let target = $state<number>(versions.length - 1);
+	let target = $state<number>(versions.findLastIndex(x => x.mcReleases));
 	let showSnapshots = $state<boolean>(false);
 
 	const start = async () => {
@@ -85,7 +85,7 @@
 	</div>
 	<div>
 		<label for="showSnapshots">Show snapshots</label>
-		<input bind:value={showSnapshots} name="showSnapshots" type="checkbox" />
+		<input bind:checked={showSnapshots} name="showSnapshots" type="checkbox" />
 	</div>
 	<div>
 		<label for="target">Target version</label>
@@ -93,8 +93,10 @@
 			{#each versions as v, i}
 				{#if showSnapshots || v.mcReleases}
 					<option value={i} selected={v === versions.at(-1)}
-					>{typeof v.version === "number" ? v.version : v.version.join(".")} ({v.mcReleases ?? v.mcVersions})</option
-				>
+						>{typeof v.version === "number" ? v.version : v.version.join(".")} ({showSnapshots
+							? v.mcVersions
+							: (v.mcReleases ?? v.mcVersions)})</option
+					>
 				{/if}
 			{/each}
 		</select>
