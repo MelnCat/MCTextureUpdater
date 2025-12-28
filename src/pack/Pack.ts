@@ -80,7 +80,9 @@ export interface Conversion {
 	urgent(warn: string, opts?: { path?: string | Pathed<unknown>; paths?: string[] | Pathed<unknown>[] }): void;
     
     vanillaFile(path: string): Image;
+
+    loadVanilla(): Promise<void>;
 }
 
-export type VersionUp = (conv: Conversion, pack: Pack) => void;
-export type VersionDown = (conv: Conversion, pack: Pack) => void;
+export type VersionUp = (conv: Conversion, pack: Pack) => void | Promise<void>;
+export type VersionDown = (conv: Conversion, pack: Pack) => void | Promise<void>;

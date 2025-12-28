@@ -51,8 +51,9 @@ export const up: VersionUp = (conv, pack) => {
 		paths: out.map(x => `textures/map/decorations/${x.name}`),
 	});
 };
-export const down: VersionDown = (conv, pack) => {
+export const down: VersionDown = async(conv, pack) => {
 	if (icons.some(x => pack.exists(`textures/map/decorations/${x}`))) {
+        if (icons.some(x => !pack.exists(`textures/map/decorations/${x}`))) await conv.loadVanilla();
 		const decorations = icons.map(x => ({ name: x, content: pack.image(`textures/map/decorations/${x}`) ?? conv.vanillaFile(`textures/map/decorations/${x}`) }));
         const maxScale = Math.max(...decorations.map(x => x.content.getWidth() / 8))
 		const out = mergeSheet(

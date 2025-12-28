@@ -40,7 +40,7 @@ export class CanvasImage implements Image {
 		return this.canvas.height;
 	}
 	getSubimage(x: number, y: number, w: number, h: number): CanvasImage {
-		const subimage = CanvasImage.create(x, y);
+		const subimage = CanvasImage.create(w, h);
 		subimage.ctx.drawImage(this.canvas, x, y, w, h, 0, 0, w, h);
 		return subimage;
 	}
@@ -91,9 +91,9 @@ export class CanvasImage implements Image {
 		return this.canvas;
 	}
 
-    toBlob(): Promise<Blob> {
-        return this.canvas.convertToBlob();
-    }
+	toBlob(): Promise<Blob> {
+		return this.canvas.convertToBlob();
+	}
 
 	static create(width: number, height: number, color?: string) {
 		const canvas = new OffscreenCanvas(width, height);
@@ -113,10 +113,10 @@ export class CanvasImage implements Image {
 
 	static fromBitmap(image: ImageBitmap) {
 		return new CanvasImage(() => {
-            const canvas = new OffscreenCanvas(image.width, image.height);
-            canvas.getContext("2d")!.drawImage(image, 0, 0);
+			const canvas = new OffscreenCanvas(image.width, image.height);
+			canvas.getContext("2d")!.drawImage(image, 0, 0);
 			return canvas;
-        })
+		});
 	}
 }
 

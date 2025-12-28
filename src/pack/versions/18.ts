@@ -24,12 +24,13 @@ export const up: VersionUp = (conv, pack) => {
 	}
 	for (const sheet of v18Sheets) {
 		if (pack.exists(sheet.path)) {
-			const image = pack.delete(sheet.path)!;
-			const scale = image.content.getWidth() / sheet.sprites[0].box.totalW;
+			const image = pack.image(sheet.path)!;
+			if (!sheet.path.includes("textures/gui/container/inventory")) pack.delete(sheet.path);
+			const scale = image.getWidth() / sheet.sprites[0].box.totalW;
 			for (const sprite of sheet.sprites) {
 				pack.add(
 					sprite.path,
-					image.content.getSubimage(sprite.box.x * scale, sprite.box.y * scale, sprite.box.w * scale, sprite.box.h * scale)
+					image.getSubimage(sprite.box.x * scale, sprite.box.y * scale, sprite.box.w * scale, sprite.box.h * scale)
 				);
 				if (sprite.meta) pack.addMcMeta(sprite.path, sprite.meta!);
 			}
@@ -70,7 +71,7 @@ export const up: VersionUp = (conv, pack) => {
 		}
 	}
 };
-export const down: VersionDown = (conv, pack) => {
+export const down: VersionDown = async (conv, pack) => {
 	const toClip: { image: Image; from: string; to: string }[] = [];
 
 	for (const clip of v18Misc.clip) {
@@ -84,7 +85,7 @@ export const down: VersionDown = (conv, pack) => {
 	}
 	if (pack.exists("textures/gui/sprites/realm_status/expires_soon")) {
 		const image = pack.delete("textures/gui/sprites/realm_status/expires_soon")!;
-        const scale = image.content.getWidth() / 10;
+		const scale = image.content.getWidth() / 10;
 		conv.pack.add(
 			"realms:textures/gui/realms/expires_soon_icon",
 			mergeSheet(20 * scale, 28 * scale, [
@@ -97,10 +98,12 @@ export const down: VersionDown = (conv, pack) => {
 	}
 	for (const sheet of v18Sheets) {
 		if (sheet.sprites.some(x => pack.exists(x.path))) {
-			const images = sheet.sprites
-				.filter(x => pack.exists(x.path))
-				.map(x => ({ image: pack.delete(x.path)! ?? conv.vanillaFile(x.path), sprite: x }));
-            const maxScale = Math.max(...images.map(x => x.image.content.getWidth() / x.sprite.box.w))
+			if (sheet.sprites.some(x => !pack.exists(x.path))) await conv.loadVanilla();
+			const images = sheet.sprites.map(x => ({
+				image: pack.delete(x.path)! ?? { path: x.path, content: conv.vanillaFile(x.path) },
+				sprite: x,
+			}));
+			const maxScale = Math.max(...images.map(x => x.image.content.getWidth() / x.sprite.box.w));
 			pack.add(
 				sheet.path,
 				placeImages(

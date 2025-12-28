@@ -106,18 +106,44 @@ export class ZipPack implements Pack {
 			.map(x => this.toImage(x));
 	}
 	setFormatVersion(version: number): void {
-		const packMcMeta = this.zip["pack.mcmeta"];
-		this.zip["pack.mcmeta"] = {
-			path: "pack.mcmeta",
-			textContent: JSON.stringify(
-				{
-					...JSON.parse(packMcMeta.textContent!),
-					pack_format: version,
-				},
-				null,
-				"\t"
-			),
-		};
+		const packMcMeta = this.packMcMeta();
+		if (version >= 65) {
+			this.zip["pack.mcmeta"] = {
+				path: "pack.mcmeta",
+				textContent: JSON.stringify(
+					{
+						...packMcMeta,
+						pack: {
+							...packMcMeta.pack,
+							pack_format: version,
+							min_format: version,
+							max_format: version,
+						},
+					},
+					null,
+					"\t"
+				),
+			};
+		} else {
+			this.zip["pack.mcmeta"] = {
+				path: "pack.mcmeta",
+				textContent: JSON.stringify(
+					{
+						...packMcMeta,
+						pack: {
+							...packMcMeta.pack,
+							pack_format: version,
+						},
+					},
+					null,
+					"\t"
+				),
+			};
+		}
+	}
+	getFormatVersion(): number {
+		const packMcMeta = this.packMcMeta();
+		return packMcMeta.pack.pack_format!;
 	}
 	mcMeta(path: string): Pathed<AnyMcMeta> | undefined {
 		path = parsePath(path, "mcmeta");
@@ -147,6 +173,8 @@ export class ZipPack implements Pack {
 		return JSON.parse(found.textContent!);
 	}
 	renameDirectory(from: string, to: string): void {
+		from = parsePath(from, "folder");
+		to = parsePath(to, "folder");
 		this.zip = Object.fromEntries(
 			Object.entries(this.zip).map(x =>
 				x[0].startsWith(from) ? [x[0].replace(from, to), { ...x[1], path: x[1].path.replace(from, to) }] : x
@@ -168,46 +196,45 @@ export class ZipPack implements Pack {
 			)
 		);
 	}
+	static async fromZip(zip: Record<string, Uint8Array<ArrayBuffer>>): Promise<ZipPack> {
+		return new ZipPack(
+			Object.fromEntries(
+				await Promise.all(
+					Object.entries(zip).map(async ([path, file]) => {
+						if (path.endsWith(".png")) {
+							const bitmap = await createImageBitmap(new Blob([file], { type: "image/png" }));
+							return [
+								path,
+								{
+									path,
+									bitmap,
+									content: file,
+								},
+							] as const;
+						} else if (path.endsWith(".json") || path.endsWith(".mcmeta")) {
+							return [
+								path,
+								{
+									path,
+									content: file,
+									textContent: td.decode(file),
+								},
+							] as const;
+						} else {
+							return [
+								path,
+								{
+									path,
+									content: file,
+								},
+							] as const;
+						}
+					})
+				)
+			)
+		);
+	}
 }
 
 const te = new TextEncoder();
 const td = new TextDecoder();
-
-export const zipPackFromZip = async (zip: Record<string, Uint8Array<ArrayBuffer>>): Promise<ZipPack> => {
-	return new ZipPack(
-		Object.fromEntries(
-			await Promise.all(
-				Object.entries(zip).map(async ([path, file]) => {
-					if (path.endsWith(".png")) {
-						const bitmap = await createImageBitmap(new Blob([file], { type: "image/png" }));
-						return [
-							path,
-							{
-								path,
-								bitmap,
-								content: file,
-							},
-						] as const;
-					} else if (path.endsWith(".json") || path.endsWith(".mcmeta")) {
-						return [
-							path,
-							{
-								path,
-								content: file,
-								textContent: td.decode(file),
-							},
-						] as const;
-					} else {
-						return [
-							path,
-							{
-								path,
-								content: file,
-							},
-						] as const;
-					}
-				})
-			)
-		)
-	);
-};

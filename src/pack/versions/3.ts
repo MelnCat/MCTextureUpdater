@@ -1,7 +1,7 @@
 import { createImage, mergeSheet, placeImages, splitSheet } from "../../util/images";
 import type { Image, VersionDown, VersionUp } from "../Pack";
 
-export const version = 4;
+export const version = 3;
 export const up: VersionUp = (conv, pack) => {
     const uppercase = pack.images().filter(x => x.path.match(/\/(.+?)\.png/)?.[0].match(/[A-Z]/));
     if (uppercase.length) {

@@ -25,26 +25,28 @@ export const up: VersionUp = (conv, pack) => {
 	}
 
 	for (const item of items) {
-		if (pack.rename(`textures/block/${item[0]}`, `textures/block/${item[1]}`)) {
-			conv.info("Renamed to v4 name.", { path: `textures/block/${item[1]}` });
+		if (pack.rename(`textures/item/${item[0]}`, `textures/item/${item[1]}`)) {
+			conv.info("Renamed to v4 name.", { path: `textures/item/${item[1]}` });
 		}
 	}
 
 	for (const block of blocks) {
-		if (pack.rename(`textures/item/${block[0]}`, `textures/item/${block[1]}`)) {
-			conv.info("Renamed to v4 name.", { path: `textures/item/${block[1]}` });
+		if (pack.rename(`textures/block/${block[0]}`, `textures/block/${block[1]}`)) {
+			conv.info("Renamed to v4 name.", { path: `textures/block/${block[1]}` });
 		}
 	}
 };
-export const down: VersionDown = (conv, pack) => {
+export const down: VersionDown = async (conv, pack) => {
 	pack.renameDirectory("textures/block", "textures/blocks");
 	pack.renameDirectory("textures/item", "textures/items");
 
 	for (const sheet of v4Data) {
 		if (!sheet.sprites.some(x => pack.exists(x.path))) continue;
+		if (sheet.sprites.some(x => !pack.image(x.path))) await conv.loadVanilla();
 		const sprites = sheet.sprites.map(x => ({ sprite: x, image: pack.image(x.path) ?? conv.vanillaFile(x.path) }));
 		const maxScale = Math.max(...sprites.map(x => x.image.getWidth() / x.sprite.box.w));
 		if (sheet.path.includes("textures/gui/container/inventory")) {
+			if (!pack.image("textures/gui/container/inventory")) await conv.loadVanilla();
 			const inv = pack.image("textures/gui/container/inventory") ?? conv.vanillaFile("textures/gui/container/inventory");
 			sprites.push({ sprite: { path: "textures/gui/container/inventory", box: new Box(0, 0, 256, 256, 256, 256) }, image: inv });
 		}
@@ -62,16 +64,16 @@ export const down: VersionDown = (conv, pack) => {
 		);
 		conv.info(`Converted from v4 format.`, { path: sheet.path });
 	}
-    
+
 	for (const item of items) {
-		if (pack.rename(`textures/blocks/${item[1]}`, `textures/blocks/${item[0]}`)) {
-			conv.info("Renamed from v4 name.", { path: `textures/blocks/${item[0]}` });
+		if (pack.rename(`textures/items/${item[1]}`, `textures/items/${item[0]}`)) {
+			conv.info("Renamed from v4 name.", { path: `textures/items/${item[0]}` });
 		}
 	}
 
 	for (const block of blocks) {
-		if (pack.rename(`textures/items/${block[1]}`, `textures/items/${block[0]}`)) {
-			conv.info("Renamed from v4 name.", { path: `textures/items/${block[0]}` });
+		if (pack.rename(`textures/blocks/${block[1]}`, `textures/blocks/${block[0]}`)) {
+			conv.info("Renamed from v4 name.", { path: `textures/blocks/${block[0]}` });
 		}
 	}
 };
