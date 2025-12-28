@@ -6,6 +6,7 @@ interface Version {
 	up: VersionUp;
 	down: VersionDown;
 	mcVersions: string;
+	mcReleases: string;
 }
 const versionsEqual = (a: PackFormatVersion, b: PackFormatVersion) => {
 	if (a === b) return true;
@@ -28,6 +29,7 @@ export const versions = formats.map(x => ({
 	up: () => {},
 	down: () => {},
 	mcVersions: x.mcVersions,
+	mcReleases: x.mcReleases,
 	...(moduleVersions.find(y => versionsEqual(y.version, x.version)) ?? null),
 }));
 

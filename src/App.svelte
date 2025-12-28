@@ -87,7 +87,7 @@
 		<select name="target" bind:value={target}>
 			{#each versions as v, i}
 				<option value={i} selected={v === versions.at(-1)}
-					>{typeof v.version === "number" ? v.version : v.version.join(".")} ({v.mcVersions})</option
+					>{typeof v.version === "number" ? v.version : v.version.join(".")} ({v.mcReleases ?? v.mcVersions})</option
 				>
 			{/each}
 		</select>
