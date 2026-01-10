@@ -54,7 +54,7 @@ export class CanvasImage implements Image {
 		degrees = ((degrees % 360) + 360) % 360;
 		if (degrees === 0) return this;
 		if (degrees === 90 || degrees === -90) {
-		} else if (degrees === -180) {
+		} else if (degrees === 180) {
 			const newImage = CanvasImage.create(this.canvas.width, this.canvas.height);
 			newImage.ctx.setTransform(-1, 0, 0, -1, this.canvas.width, this.canvas.height);
 			newImage.ctx.drawImage(this.canvas, 0, 0);
