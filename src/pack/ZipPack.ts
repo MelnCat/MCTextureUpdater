@@ -2,6 +2,7 @@ import { CanvasImage } from "../util/images";
 import type { Blockstate } from "./Blockstate";
 import type { AnyMcMeta, PackMcMeta } from "./McMeta";
 import type { BlockModel, Image, Model, Pack, PackFormatVersion, Pathed } from "./Pack";
+import JSON5 from "json5";
 
 type Entry = {
 	path: string;
@@ -30,6 +31,7 @@ export class ZipPack implements Pack {
 	}
 
 	rename(from: string, to: string): Pathed<Image> | undefined {
+		this.renameMcMeta(from, to);
 		from = parsePath(from, "image");
 		to = parsePath(to, "image");
 		const image = this.zip[from];
@@ -40,6 +42,7 @@ export class ZipPack implements Pack {
 		return this.toImage(newImage);
 	}
 	delete(path: string): Pathed<Image> | undefined {
+        this.deleteMcMeta(path);
 		path = parsePath(path, "image");
 		const image = this.zip[path];
 		if (!image) return;
@@ -72,7 +75,7 @@ export class ZipPack implements Pack {
 		path = parsePath(path, "json");
 		const model = this.zip[path];
 		if (!model && !fallback) return false;
-		this.zip[path] = { path, textContent: JSON.stringify(cb(model ? JSON.parse(model.textContent!) : fallback), null, "\t") };
+		this.zip[path] = { path, textContent: JSON.stringify(cb(model ? JSON5.parse(model.textContent!) : fallback!), null, "\t") };
 		return true;
 	}
 	updateBlockModel(path: string, cb: (model: BlockModel) => BlockModel, fallback?: BlockModel): boolean {
@@ -82,23 +85,30 @@ export class ZipPack implements Pack {
 		path = parsePath(path, "mcmeta");
 		const meta = this.zip[path];
 		if (!meta && !fallback) return false;
-		this.zip[path] = { path, textContent: JSON.stringify(cb(meta ? JSON.parse(meta.textContent!) : fallback), null, "\t") };
+		this.zip[path] = { path, textContent: JSON.stringify(cb(meta ? JSON5.parse(meta.textContent!) : fallback!), null, "\t") };
 		return true;
 	}
 	mcMetas(): Pathed<AnyMcMeta>[] {
 		return Object.values(this.zip)
 			.filter(x => x.path.endsWith(".png.mcmeta"))
-			.map(x => ({ path: x.path, content: JSON.parse(x.textContent!) }));
+			.map(x => {
+				try {
+					return { path: x.path, content: JSON5.parse(x.textContent!) };
+				} catch {
+					console.warn(`Something went wrong decoding ${x.path}`);
+					return { path: x.path, content: {} };
+				}
+			});
 	}
 	blockModels(): Pathed<BlockModel>[] {
 		return Object.values(this.zip)
 			.filter(x => x.path.endsWith(".json") && x.path.includes("models/block/"))
-			.map(x => ({ path: x.path, content: JSON.parse(x.textContent!) }));
+			.map(x => ({ path: x.path, content: JSON5.parse(x.textContent!) }));
 	}
 	blockstates(): Pathed<Blockstate>[] {
 		return Object.values(this.zip)
 			.filter(x => x.path.endsWith(".json") && x.path.includes("blockstates/"))
-			.map(x => ({ path: x.path, content: JSON.parse(x.textContent!) }));
+			.map(x => ({ path: x.path, content: JSON5.parse(x.textContent!) }));
 	}
 	images(): Pathed<Image>[] {
 		return Object.values(this.zip)
@@ -149,7 +159,7 @@ export class ZipPack implements Pack {
 		path = parsePath(path, "mcmeta");
 		const found = this.zip[path];
 		if (!found) return;
-		return { path, content: JSON.parse(found.textContent!) };
+		return { path, content: JSON5.parse(found.textContent!) };
 	}
 	renameMcMeta(path: string, to: string): Pathed<AnyMcMeta> | undefined {
 		path = parsePath(path, "mcmeta");
@@ -159,18 +169,18 @@ export class ZipPack implements Pack {
 		delete this.zip[path];
 		const renamed = { ...found, path: to };
 		this.zip[to] = renamed;
-		return { path: to, content: JSON.parse(renamed.textContent!) };
+		return { path: to, content: JSON5.parse(renamed.textContent!) };
 	}
 	deleteMcMeta(path: string): Pathed<AnyMcMeta> | undefined {
 		path = parsePath(path, "mcmeta");
 		const found = this.zip[path];
 		if (!found) return;
 		delete this.zip[path];
-		return { path, content: JSON.parse(found.textContent!) };
+		return { path, content: JSON5.parse(found.textContent!) };
 	}
 	packMcMeta(): PackMcMeta {
 		const found = this.zip["pack.mcmeta"];
-		return JSON.parse(found.textContent!);
+		return JSON5.parse(found.textContent!);
 	}
 	renameDirectory(from: string, to: string): void {
 		from = parsePath(from, "folder");

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "fflate": "^0.8.2",
+    "json5": "^2.2.3",
     "prettier": "^3.7.4"
   }
 }
